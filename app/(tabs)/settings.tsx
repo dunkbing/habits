@@ -8,10 +8,15 @@ import { setLanguage } from '@/lib/i18n';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
-const THEME_OPTIONS: ThemeMode[] = ['system', 'light', 'dark'];
+const THEME_OPTIONS: { mode: ThemeMode; key: string }[] = [
+  { mode: 'system', key: 'settings.themeSystem' },
+  { mode: 'light', key: 'settings.themeLight' },
+  { mode: 'dark', key: 'settings.themeDark' },
+];
+
 const LANGUAGE_OPTIONS = [
-  { code: 'en', label: 'languageEn' },
-  { code: 'vi', label: 'languageVi' },
+  { code: 'en', key: 'settings.languageEn' },
+  { code: 'vi', key: 'settings.languageVi' },
 ] as const;
 
 export default function SettingsScreen() {
@@ -30,7 +35,7 @@ export default function SettingsScreen() {
         {t('settings.theme')}
       </ThemedText>
       <View style={styles.optionRow}>
-        {THEME_OPTIONS.map((mode) => {
+        {THEME_OPTIONS.map(({ mode, key }) => {
           const isActive = themeMode === mode;
           return (
             <Pressable
@@ -48,7 +53,7 @@ export default function SettingsScreen() {
                   styles.optionText,
                   { color: isActive ? (colorScheme === 'dark' ? '#151718' : '#fff') : colors.text },
                 ]}>
-                {t(`settings.theme${mode.charAt(0).toUpperCase() + mode.slice(1)}` as any)}
+                {t(key)}
               </ThemedText>
             </Pressable>
           );
@@ -59,7 +64,7 @@ export default function SettingsScreen() {
         {t('settings.language')}
       </ThemedText>
       <View style={styles.optionRow}>
-        {LANGUAGE_OPTIONS.map(({ code, label }) => {
+        {LANGUAGE_OPTIONS.map(({ code, key }) => {
           const isActive = i18n.language === code;
           return (
             <Pressable
@@ -77,7 +82,7 @@ export default function SettingsScreen() {
                   styles.optionText,
                   { color: isActive ? (colorScheme === 'dark' ? '#151718' : '#fff') : colors.text },
                 ]}>
-                {t(`settings.${label}` as any)}
+                {t(key)}
               </ThemedText>
             </Pressable>
           );
