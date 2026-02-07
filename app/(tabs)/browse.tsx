@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, View, Alert } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 

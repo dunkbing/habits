@@ -1,42 +1,49 @@
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { ThemedText } from '@/components/themed-text';
-import { useCategories } from '@/hooks/use-categories';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { ThemedText } from "@/components/themed-text";
+import { Colors } from "@/constants/theme";
+import { useCategories } from "@/hooks/use-categories";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTranslation } from "react-i18next";
+import { Pressable, ScrollView, StyleSheet } from "react-native";
 
 interface CategoryFilterProps {
   selectedCategoryId: string | null;
   onSelect: (categoryId: string | null) => void;
 }
 
-export function CategoryFilter({ selectedCategoryId, onSelect }: CategoryFilterProps) {
+export function CategoryFilter({
+  selectedCategoryId,
+  onSelect,
+}: CategoryFilterProps) {
   const { t } = useTranslation();
   const { categories } = useCategories();
   const colorScheme = useColorScheme();
 
   const isAllSelected = selectedCategoryId === null;
   const activeBg = Colors.habit.completionDone;
-  const inactiveBg = colorScheme === 'dark' ? '#2a2d2f' : '#f0f0f0';
+  const inactiveBg = colorScheme === "dark" ? "#2A2A2A" : "#fff";
 
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.container}>
+      contentContainerStyle={styles.container}
+      style={styles.scrollView}
+    >
       <Pressable
         style={[
           styles.chip,
           { backgroundColor: isAllSelected ? activeBg : inactiveBg },
           isAllSelected && styles.chipActive,
         ]}
-        onPress={() => onSelect(null)}>
+        onPress={() => onSelect(null)}
+      >
         <ThemedText
           style={[
             styles.chipText,
-            isAllSelected && { color: '#fff', fontWeight: '700' },
-          ]}>
-          {t('categories.all')}
+            isAllSelected && { color: "#fff", fontWeight: "600" },
+          ]}
+        >
+          {t("categories.all")}
         </ThemedText>
       </Pressable>
 
@@ -50,12 +57,14 @@ export function CategoryFilter({ selectedCategoryId, onSelect }: CategoryFilterP
               { backgroundColor: isSelected ? activeBg : inactiveBg },
               isSelected && styles.chipActive,
             ]}
-            onPress={() => onSelect(cat.id)}>
+            onPress={() => onSelect(cat.id)}
+          >
             <ThemedText
               style={[
                 styles.chipText,
-                isSelected && { color: '#fff', fontWeight: '700' },
-              ]}>
+                isSelected && { color: "#fff", fontWeight: "600" },
+              ]}
+            >
               {cat.name}
             </ThemedText>
           </Pressable>
@@ -66,25 +75,32 @@ export function CategoryFilter({ selectedCategoryId, onSelect }: CategoryFilterP
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 0,
+    marginBottom: 0, // Added margin bottom to separate from list
+  },
   container: {
     paddingHorizontal: 20,
     gap: 8,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   chip: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingHorizontal: 18,
+    paddingVertical: 6,
+    borderRadius: 8,
+    height: 36,
+    justifyContent: "center",
+    alignItems: "center",
   },
   chipActive: {
-    shadowColor: '#22C55E',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowColor: "#22C55E",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
   },
   chipText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

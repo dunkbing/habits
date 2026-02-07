@@ -1,12 +1,12 @@
-import { FlatList, StyleSheet, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { HabitCard } from './habit-card';
-import { EmptyState } from './empty-state';
-import { ThemedText } from '@/components/themed-text';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { formatDateKey } from '@/lib/date-utils';
-import type { Habit, Completion } from '@/db/schema';
+import { ThemedText } from "@/components/themed-text";
+import { Colors } from "@/constants/theme";
+import type { Completion, Habit } from "@/db/schema";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { formatDateKey } from "@/lib/date-utils";
+import { useTranslation } from "react-i18next";
+import { FlatList, StyleSheet, View } from "react-native";
+import { EmptyState } from "./empty-state";
+import { HabitCard } from "./habit-card";
 
 interface HabitListProps {
   habits: Habit[];
@@ -33,7 +33,10 @@ export function HabitList({
 
   const dateKey = formatDateKey(selectedDate);
   const completedCount = habits.filter((h) =>
-    completions.some((c) => c.habitId === h.id && c.date === dateKey && c.status === 'completed')
+    completions.some(
+      (c) =>
+        c.habitId === h.id && c.date === dateKey && c.status === "completed",
+    ),
   ).length;
 
   if (habits.length === 0) {
@@ -46,7 +49,9 @@ export function HabitList({
       keyExtractor={(item) => item.id}
       ListHeaderComponent={
         <View style={styles.sectionHeader}>
-          <ThemedText style={styles.sectionTitle}>{t('today.todaysHabits')}</ThemedText>
+          <ThemedText style={styles.sectionTitle}>
+            {t("today.todaysHabits")}
+          </ThemedText>
           <ThemedText style={[styles.sectionCount, { color: colors.icon }]}>
             {completedCount} of {habits.length} done
           </ThemedText>
@@ -72,19 +77,22 @@ export function HabitList({
 const styles = StyleSheet.create({
   list: {
     paddingHorizontal: 20,
+    paddingTop: 8, // Added top padding to separate from categories
     paddingBottom: 100,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingTop: 8, // Added top padding
+    paddingBottom: 16, // Increased bottom padding
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   sectionCount: {
     fontSize: 14,
+    fontWeight: "500",
   },
 });

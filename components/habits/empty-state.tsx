@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { ThemedText } from '@/components/themed-text';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { ThemedText } from "@/components/themed-text";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
 
 export function EmptyState() {
   const { t } = useTranslation();
@@ -12,9 +12,9 @@ export function EmptyState() {
   return (
     <View style={styles.container}>
       <ThemedText style={styles.emoji}>📋</ThemedText>
-      <ThemedText style={styles.title}>{t('today.emptyTitle')}</ThemedText>
+      <ThemedText style={styles.title}>{t("today.emptyTitle")}</ThemedText>
       <ThemedText style={[styles.subtitle, { color: colors.icon }]}>
-        {t('today.emptySubtitle')}
+        {t("today.emptySubtitle")}
       </ThemedText>
     </View>
   );
@@ -22,9 +22,10 @@ export function EmptyState() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 60,
     paddingHorizontal: 40,
+    flex: 1,
   },
   emoji: {
     fontSize: 48,
@@ -32,13 +33,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 15,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 22,
   },
 });
