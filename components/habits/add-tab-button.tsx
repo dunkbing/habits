@@ -1,7 +1,8 @@
+import { Colors } from '@/constants/theme';
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-import { Pressable, StyleSheet, View } from 'react-native';
-import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 export function AddTabButton({ style }: BottomTabBarButtonProps) {
   const router = useRouter();
@@ -35,10 +36,10 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#22C55E',
+    backgroundColor: Colors.habit.completionDone,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#22C55E',
+    shadowColor: Colors.habit.completionDone,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
     shadowRadius: 8,

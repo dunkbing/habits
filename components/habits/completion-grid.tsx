@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 
+import { Colors } from "@/constants/theme";
 import type { Completion } from "@/db/schema";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { formatDateKey, isFuture, isToday } from "@/lib/date-utils";
+import { formatDateKey, isFuture } from "@/lib/date-utils";
 
 interface CompletionGridProps {
   habitId: string;
@@ -65,6 +66,7 @@ export function CompletionGrid({
   rows = 3,
 }: CompletionGridProps) {
   const colorScheme = useColorScheme();
+  const themeColors = Colors[colorScheme ?? "light"];
 
   /* Get all days in the month */
   const days = useMemo(() => getMonthDays(referenceDate), [referenceDate]);
@@ -100,36 +102,22 @@ export function CompletionGrid({
 
             const key = formatDateKey(day);
             const completion = completionMap.get(key);
-            const today = isToday(day);
             const future = isFuture(day);
-            console.log({
-              day: key,
-              status: completion?.status,
-              today,
-              future,
-            });
+
             let backgroundColor: string;
-            let borderColor: string | undefined;
-            let borderWidth = 0;
 
             /* ------------ Color Logic ------------ */
             if (completion?.status === "completed") {
-              backgroundColor = "#22C55E"; // Green - completed
+              backgroundColor = Colors.habit.completionDone; // Green
             } else if (completion?.status === "skipped") {
-              backgroundColor = "#F59E0B"; // Orange - skipped
+              backgroundColor = Colors.habit.completionSkipped; // Orange
             } else if (future) {
-              // Future days - light gray
-              backgroundColor = colorScheme === "dark" ? "#2A2D2F" : "#E5E7EB";
+              // Future days
+              backgroundColor = colorScheme === "dark" ? "#334155" : "#E2E8F0";
             } else {
-              // Missed/incomplete past days - medium gray
-              backgroundColor = colorScheme === "dark" ? "#374151" : "#D1D5DB";
+              // Missed/incomplete past days / today
+              backgroundColor = colorScheme === "dark" ? "#475569" : "#CBD5E1";
             }
-
-            // /* Today border indicator (only if not completed) */
-            // if (today && completion?.status !== "completed") {
-            //   borderWidth = 2;
-            //   borderColor = colorScheme === "dark" ? "#4B5563" : "#9CA3AF";
-            // }
 
             return (
               <View
@@ -137,7 +125,6 @@ export function CompletionGrid({
                 style={[
                   styles.square,
                   { backgroundColor },
-                  borderWidth > 0 && { borderWidth, borderColor },
                 ]}
               />
             );
